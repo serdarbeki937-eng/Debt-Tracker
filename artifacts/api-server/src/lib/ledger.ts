@@ -1,4 +1,4 @@
-import { and, asc, eq, gte, lte, sql } from "drizzle-orm";
+import { and, asc, eq, gte, inArray, lte, sql } from "drizzle-orm";
 import { db, clientsTable, transactionsTable } from "@workspace/db";
 
 /**
@@ -24,7 +24,7 @@ export async function getClientBalances(
     .from(transactionsTable)
     .where(
       clientIds && clientIds.length > 0
-        ? sql`${transactionsTable.clientId} = ANY(${clientIds})`
+        ? inArray(transactionsTable.clientId, clientIds)
         : undefined,
     )
     .groupBy(transactionsTable.clientId);
