@@ -24,11 +24,12 @@ router.get("/export/clients", requireAuth, async (req, res): Promise<void> => {
     res.status(400).json({ error: query.error.message });
     return;
   }
-  const { search, territory } = query.data;
+  const { search, territory, responsiblePerson } = query.data;
 
   const conditions = [];
   if (search) conditions.push(ilike(clientsTable.name, `%${search}%`));
   if (territory) conditions.push(eq(clientsTable.territory, territory));
+  if (responsiblePerson) conditions.push(ilike(clientsTable.responsiblePerson, `%${responsiblePerson}%`));
 
   const clients = await db
     .select()

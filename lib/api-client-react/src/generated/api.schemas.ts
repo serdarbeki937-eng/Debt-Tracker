@@ -158,6 +158,7 @@ export interface AktSverkaResult {
 export type ListClientsParams = {
 search?: string;
 territory?: string;
+responsiblePerson?: string;
 };
 
 export type ListTransactionsParams = {
@@ -178,6 +179,7 @@ to: string;
 export type ExportClientsParams = {
 search?: string;
 territory?: string;
+responsiblePerson?: string;
 };
 
 export type ExportTransactionsParams = {

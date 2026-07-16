@@ -62,6 +62,8 @@ export default function ClientsPage() {
   const [search, setSearch] = React.useState("");
   const [debouncedSearch, setDebouncedSearch] = React.useState("");
   const [territory, setTerritory] = React.useState<string>("all");
+  const [responsiblePerson, setResponsiblePerson] = React.useState("");
+  const [debouncedResponsible, setDebouncedResponsible] = React.useState("");
   const [isCreateModalOpen, setIsCreateModalOpen] = React.useState(false);
   
   const { toast } = useToast();
@@ -74,9 +76,16 @@ export default function ClientsPage() {
     return () => clearTimeout(timer);
   }, [search]);
 
+  // Debounce responsible person
+  React.useEffect(() => {
+    const timer = setTimeout(() => setDebouncedResponsible(responsiblePerson), 500);
+    return () => clearTimeout(timer);
+  }, [responsiblePerson]);
+
   const queryParams = {
     search: debouncedSearch || undefined,
     territory: territory === "all" ? undefined : territory,
+    responsiblePerson: debouncedResponsible || undefined,
   };
 
   const { data: clients, isLoading } = useListClients(queryParams);
@@ -253,6 +262,13 @@ export default function ClientsPage() {
                 ))}
               </SelectContent>
             </Select>
+          </div>
+          <div className="relative w-[200px]">
+            <Input
+              placeholder="Mas'ul shaxs..."
+              value={responsiblePerson}
+              onChange={(e) => setResponsiblePerson(e.target.value)}
+            />
           </div>
         </div>
         

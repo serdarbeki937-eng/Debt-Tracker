@@ -119,6 +119,10 @@ paths:
           in: query
           schema:
             type: string
+        - name: responsiblePerson
+          in: query
+          schema:
+            type: string
       responses:
         "200":
           description: List of clients
@@ -374,6 +378,10 @@ paths:
           schema:
             type: string
         - name: territory
+          in: query
+          schema:
+            type: string
+        - name: responsiblePerson
           in: query
           schema:
             type: string

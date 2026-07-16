@@ -34,7 +34,7 @@ router.get("/clients", requireAuth, async (req, res): Promise<void> => {
     res.status(400).json({ error: query.error.message });
     return;
   }
-  const { search, territory } = query.data;
+  const { search, territory, responsiblePerson } = query.data;
 
   const conditions = [];
   if (search) {
@@ -42,6 +42,9 @@ router.get("/clients", requireAuth, async (req, res): Promise<void> => {
   }
   if (territory) {
     conditions.push(eq(clientsTable.territory, territory));
+  }
+  if (responsiblePerson) {
+    conditions.push(ilike(clientsTable.responsiblePerson, `%${responsiblePerson}%`));
   }
 
   const clients = await db
@@ -172,7 +175,11 @@ router.get(
       .where(eq(transactionsTable.clientId, params.data.id))
       .orderBy(sql`${transactionsTable.date} desc, ${transactionsTable.id} desc`);
 
-    res.json(ListClientTransactionsResponse.parse(rows));
+    res.json(
+      ListClientTransactionsResponse.parse(
+        rows.map((r) => ({ ...r, amount: Number(r.amount) })),
+      ),
+    );
   },
 );
 

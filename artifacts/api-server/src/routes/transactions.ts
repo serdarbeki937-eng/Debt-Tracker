@@ -36,7 +36,7 @@ async function loadTransactionWithClientName(id: number) {
     .from(transactionsTable)
     .innerJoin(clientsTable, eq(transactionsTable.clientId, clientsTable.id))
     .where(eq(transactionsTable.id, id));
-  return row;
+  return row ? { ...row, amount: Number(row.amount) } : row;
 }
 
 router.get("/transactions", requireAuth, async (req, res): Promise<void> => {
@@ -75,7 +75,11 @@ router.get("/transactions", requireAuth, async (req, res): Promise<void> => {
     .where(conditions.length > 0 ? and(...conditions) : undefined)
     .orderBy(transactionsTable.date, transactionsTable.id);
 
-  res.json(ListTransactionsResponse.parse(rows.reverse()));
+  res.json(
+    ListTransactionsResponse.parse(
+      rows.reverse().map((r) => ({ ...r, amount: Number(r.amount) })),
+    ),
+  );
 });
 
 router.post("/transactions", requireAuth, async (req, res): Promise<void> => {

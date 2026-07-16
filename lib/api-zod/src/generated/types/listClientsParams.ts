@@ -9,4 +9,5 @@
 export type ListClientsParams = {
 search?: string;
 territory?: string;
+responsiblePerson?: string;
 };

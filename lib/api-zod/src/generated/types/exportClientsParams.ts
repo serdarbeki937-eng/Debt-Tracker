@@ -9,4 +9,5 @@
 export type ExportClientsParams = {
 search?: string;
 territory?: string;
+responsiblePerson?: string;
 };

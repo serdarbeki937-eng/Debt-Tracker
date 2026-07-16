@@ -77,7 +77,8 @@ export const ListTerritoriesResponse = zod.array(ListTerritoriesResponseItem)
  */
 export const ListClientsQueryParams = zod.object({
   "search": zod.coerce.string().optional(),
-  "territory": zod.coerce.string().optional()
+  "territory": zod.coerce.string().optional(),
+  "responsiblePerson": zod.coerce.string().optional()
 })
 
 export const ListClientsResponseItem = zod.object({
@@ -365,7 +366,8 @@ export const GetAktSverkaResponse = zod.object({
  */
 export const ExportClientsQueryParams = zod.object({
   "search": zod.coerce.string().optional(),
-  "territory": zod.coerce.string().optional()
+  "territory": zod.coerce.string().optional(),
+  "responsiblePerson": zod.coerce.string().optional()
 })
 
 export const ExportClientsResponse = zod.unknown()
